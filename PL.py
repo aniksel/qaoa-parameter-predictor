@@ -86,49 +86,14 @@ def qaoa_expected_energy(qubo, beta, gamma, qaoa_circuit):
     return expected_energy
 
 
-
-
-
-
-
-
-def test():
-    n = 5
-    p = 3
-
-    # qaoa_circuit = create_qaoa_counts_circuit(n, p)
-    qaoa_circuit = create_qaoa_circuit(n, p)
-
-    beta = torch.tensor([0.1, 0.2, 0.3], dtype=torch.float32)
-    gamma = torch.tensor([0.5, 0.6, 0.7], dtype=torch.float32)
-
-    qubo = torch.tensor([
-        [-2,  1,  0,  0,  1],
-        [ 1, -3,  1,  0,  1],
-        [ 0,  1, -2,  1,  0],
-        [ 0,  0,  1, -2,  1],
-        [ 1,  1,  0,  1, -3]
-    ], dtype=torch.float32)
+def qaoa_expected_energy_top(qubo, beta, gamma, qaoa_circuit, n=10):
 
     probs = qaoa_circuit(beta, gamma, qubo)
-    return probs
 
+    energies = qubo_energies_tensor(qubo)
+    energies = energies.to(probs.dtype)
 
-# print(test())
+    top_indices = torch.topk(probs, n).indices
+    top_energies = energies[top_indices]
 
-# def create_qaoa_counts_circuit(n: int, p: int):
-#     dev = qml.device("default.qubit", wires=n)
-
-#     @qml.set_shots(1000)
-#     @qml.qnode(dev)
-#     def qaoa_circuit(beta, gamma, qubo):
-#         for i in range(n):
-#             qml.Hadamard(wires=i)
-
-#         for i in range(p):
-#             mix_layer(n, beta[i])
-#             problem_layer(n, gamma[i], qubo)
-
-#         return qml.counts(wires=range(n))
-
-#     return qaoa_circuit
+    return top_energies.mean()
