@@ -65,7 +65,7 @@ def create_dataset(num_graphs=20, n=5, m=6, seed=43):
     return dataset
 
 
-dataset = create_dataset(num_graphs=206, n=5, m=6)
+dataset = create_dataset(num_graphs=205, n=5, m=6)
 
 output_dir = "maxcut_qubo_dataset"
 os.makedirs(output_dir, exist_ok=True)
