@@ -1,0 +1,4 @@
+Unnamed: 0,loss_group,count,mean_loss,mean_triangles,mean_max_degree,mean_max_cut_size,mean_num_optimal_cuts
+0,group 1: low loss,9,0.032905,2.0,4.0,4.0,18.0
+1,group 2: middle loss,26,0.08301,1.0,3.0,5.0,4.0
+2,group 3: high loss,45,0.148285,1.733333,3.422222,5.133333,2.0
